@@ -20,8 +20,8 @@ const PokemonApp: React.FC = () => {
 
       try {
         if (search) {
-          const response = await axios.get(`${API_URL}/pokemons/${search}`);
-          data = [response.data.pokemon]
+          const response = await axios.get(`${API_URL}/pokemons?name=${search}`);
+          data = response.data.pokemons
         } else {
           const response = await axios.get(`${API_URL}/pokemons/limit/16`);
           data = response.data.pokemons

@@ -29,10 +29,12 @@ PokemonController.get("/:idOrName", async (req: Request, res: Response) => {
  * Get all pokemons
  * @route GET /pokemons
  * @group Pokemons
+ * @param {string} [name.query] - Optional filter: only return Pokemon whose name starts with this value (case-insensitive)
  */
 PokemonController.get("/", async (_req: Request, res: Response) => {
 	try {
-		const pokemons = await pokemonService.getAllPokemons();
+		const nameFilter = _req.query.name?.toString().toLowerCase();
+		const pokemons = await pokemonService.getAllPokemons(nameFilter);
 		return res.status(200).send({ pokemons });
 	} catch (err) {
 		console.error(err);

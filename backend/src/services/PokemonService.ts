@@ -19,8 +19,13 @@ export class PokemonService {
         return result.data as Pokemon;
     }
 
-    async getAllPokemons(): Promise<Pokemon[]> {
+    async getAllPokemons(nameFilter?: string): Promise<Pokemon[]> {
         const result = await axios.get(`${this.apiUrl}/pokemon`);
+
+        if (nameFilter) {
+            return result.data.filter((pokemon: Pokemon) => pokemon.name.toLowerCase().startsWith(nameFilter.toLowerCase()));
+        }
+
         return result.data as Pokemon[];
     }
 
