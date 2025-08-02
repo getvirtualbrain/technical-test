@@ -21,7 +21,7 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons }) => {
   return (
     <div className={`p-4 grid grid-cols-4 gap-10 place-items-center ${theme === 'light' ? '' : 'bg-slate-800'}`}>
       {pokemons.map((p) => (
-        <Card pokemon={p} />
+        <Card pokemon={p} key={p.id} />
       ))}
     </div>
   );
