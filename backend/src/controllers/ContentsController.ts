@@ -32,8 +32,8 @@ ContentController.get(
 	async (_req: Request, res: Response) => {
 		const { pokemonId } = _req.params;
 		try {
-			await contentsService.getPokemonAsMarkdown(pokemonId);
-			return res.sendStatus(200);
+			const result = await contentsService.getPokemonAsMarkdown(pokemonId);
+			return res.send(result);
 		} catch (err) {
 			console.error(err);
 			return res.status(500).send({ error: "Failed to get pokemon as markdown" });
