@@ -41,13 +41,23 @@ PokemonController.get(
 
 /**
  * Get 100 pokemons
- * @route GET /pokemons
+ * @route GET /pokemons/limit/:limit
  * @group Pokemons
 */
 PokemonController.get(
-	'/limit/100',
+	'/limit/:limit',
 	async (req: Request, res: Response) => {
-		const result = await axios.get(`${POKEMON_API_URL}/pokemon/limit/100`)
+		const { limit } = req.params
+
+		if (!limit) {
+			return res.status(400).send({ error: 'Limit is required' })
+		}
+
+		if (Number(limit) > 898) {
+			return res.status(400).send({ error: 'Limit must be less or equal to 898' })
+		}
+
+		const result = await axios.get(`${POKEMON_API_URL}/pokemon/limit/${limit}`)
 
 		const pokemons = result.data as Pokemon[]
 

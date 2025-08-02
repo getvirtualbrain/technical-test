@@ -13,7 +13,7 @@ const PokemonApp: React.FC = () => {
 
   useEffect(() => {
     const getPokemon = async () => {
-      const response = await axios.get(`${API_URL}/pokemons/limit/100`);
+      const response = await axios.get(`${API_URL}/pokemons/limit/16`);
       const pokemons = response.data.pokemons
       setPokemonList(pokemons);
     };
