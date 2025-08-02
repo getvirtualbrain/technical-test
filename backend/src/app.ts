@@ -1,10 +1,10 @@
 
 import cors from 'cors'
+import 'dotenv/config'
 import express from 'express'
-
 import { createServer } from 'http'
-import { PokemonController } from './controllers/PokemonController'
 import { ContentController } from './controllers/ContentsController'
+import { PokemonController } from './controllers/PokemonController'
 
 /** App */
 const app = express()
