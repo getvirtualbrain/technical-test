@@ -31,6 +31,10 @@ export class ContentService {
         ]);
     }
 
+    private async ensureExportDir(): Promise<void> {
+        await fs.mkdir(EXPORT_DIR, { recursive: true });
+    }
+
     private async saveMarkdownFile(pokemon: Pokemon): Promise<void> {
         await fs.mkdir(EXPORT_DIR, { recursive: true });
         const filePath = path.join(EXPORT_DIR, `${pokemon.id}.md`);
@@ -38,10 +42,49 @@ export class ContentService {
     }
 
     /**
+     * Export all Pokémon into markdown files (one time job)
+     */
+    private async saveAllPokemonsAsMarkdown(): Promise<void> {
+        console.log("Saving all Pokemon as markdown files...");
+        const pokemons = await this.pokemonService.getAllPokemons();
+        await fs.mkdir(EXPORT_DIR, { recursive: true });
+
+        for (const p of pokemons) {
+            await this.saveMarkdownFile(p);
+        }
+
+        console.log("All Pokemon saved as markdown files.");
+    }
+
+    /**
+     * Get all Pokémon IDs from markdown files
+     */
+    async getAllPokemonsAsMarkdown(): Promise<string[]> {
+        await this.ensureExportDir();
+        let files = await fs.readdir(EXPORT_DIR);
+
+        if (files.length === 0) {
+            await this.saveAllPokemonsAsMarkdown();
+            files = await fs.readdir(EXPORT_DIR);
+        }
+
+        const mdFiles = files.filter(f => f.endsWith(".md"));
+
+        const contents = await Promise.all(
+            mdFiles.map(file => {
+                const filePath = path.join(EXPORT_DIR, file);
+                return fs.readFile(filePath, "utf8");
+            })
+        );
+
+        return contents;
+    }
+
+    /**
      * Read a markdown file for a specific Pokémon
      */
     async getPokemonAsMarkdown(pokemonId: string): Promise<string> {
-        await fs.mkdir(EXPORT_DIR, { recursive: true });
+        await this.ensureExportDir();
 
         let files = await fs.readdir(EXPORT_DIR);
 
@@ -59,20 +102,5 @@ export class ContentService {
 
         const filePath = path.join(EXPORT_DIR, file);
         return await fs.readFile(filePath, "utf8");
-    }
-
-    /**
-     * Export all Pokémon into markdown files (one time job)
-     */
-    async saveAllPokemonsAsMarkdown(): Promise<void> {
-        console.log("Saving all Pokemon as markdown files...");
-        const pokemons = await this.pokemonService.getAllPokemons();
-        await fs.mkdir(EXPORT_DIR, { recursive: true });
-
-        for (const p of pokemons) {
-            await this.saveMarkdownFile(p);
-        }
-
-        console.log("All Pokemon saved as markdown files.");
     }
 }

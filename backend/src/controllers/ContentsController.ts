@@ -12,8 +12,8 @@ ContentController.get(
 	'/all',
 	async (_req: Request, res: Response) => {
 		try {
-			await contentsService.saveAllPokemonsAsMarkdown();
-			return res.sendStatus(200);
+			const result = await contentsService.getAllPokemonsAsMarkdown();
+			return res.send(result);
 		} catch (err) {
 			console.error(err);
 			return res.status(500).send({ error: "Failed to save all pokemons as markdown" });
