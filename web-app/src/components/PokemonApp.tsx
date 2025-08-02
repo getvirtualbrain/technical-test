@@ -30,8 +30,8 @@ const PokemonApp: React.FC = () => {
       let data: Pokemon[] = [];
 
       try {
-        if (search) {
-          const response = await axios.get(`${API_URL}/pokemons?name=${search}`);
+        if (search || selectedTypes.length > 0) {
+          const response = await axios.get(`${API_URL}/pokemons?name=${search}&types=${selectedTypes.map(type => type.name).join(',')}`);
           data = response.data.pokemons
         } else {
           const response = await axios.get(`${API_URL}/pokemons/limit/40`);
@@ -44,7 +44,7 @@ const PokemonApp: React.FC = () => {
       }
     }
     getPokemon();
-  }, [search]);
+  }, [search, selectedTypes]);
 
   const handleTypeClick = (type: PokemonType) => {
     setSelectedTypes((prevTypes) => {

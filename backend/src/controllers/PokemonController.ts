@@ -45,11 +45,15 @@ PokemonController.get("/:idOrName", async (req: Request, res: Response) => {
  * @route GET /pokemons
  * @group Pokemons
  * @param {string} [name.query] - Optional filter: only return Pokemon whose name starts with this value (case-insensitive)
+ * @param {string} [types.query] - Optional filter: comma-separated list of type names (case-insensitive) 
  */
 PokemonController.get("/", async (_req: Request, res: Response) => {
 	try {
 		const nameFilter = _req.query.name?.toString().toLowerCase();
-		const pokemons = await pokemonService.getAllPokemons(nameFilter);
+		const typesFilter = _req.query.types
+			? _req.query.types.toString().toLowerCase().split(",")
+			: [];
+		const pokemons = await pokemonService.getAllPokemons(typesFilter, nameFilter);
 		return res.status(200).send({ pokemons });
 	} catch (err) {
 		console.error(err);

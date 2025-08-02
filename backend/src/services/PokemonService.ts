@@ -19,14 +19,37 @@ export class PokemonService {
         return result.data as Pokemon;
     }
 
-    async getAllPokemons(nameFilter?: string): Promise<Pokemon[]> {
-        const result = await axios.get(`${this.apiUrl}/pokemon`);
+    async getAllPokemons(typesFilter?: string[], nameFilter?: string): Promise<Pokemon[]> {
+        const pokemons = await axios.get(`${this.apiUrl}/pokemon`);
 
-        if (nameFilter) {
-            return result.data.filter((pokemon: Pokemon) => pokemon.name.toLowerCase().startsWith(nameFilter.toLowerCase()));
-        }
+        const filteredPokemons = pokemons.data.filter((pokemon: Pokemon) => {
+            let matchesName = true;
+            let matchesType = true;
 
-        return result.data as Pokemon[];
+            // Name filter
+            if (nameFilter) {
+                const pokemonName = pokemon.name.toLowerCase();
+                if (!pokemonName.startsWith(nameFilter.toLowerCase())) {
+                    matchesName = false;
+                }
+            }
+
+            // Type filter
+            if (typesFilter && typesFilter.length > 0) {
+                // Check if the pokemon has at least one type in the list
+                const pokemonTypes = pokemon.apiTypes.map((t) => t.name.toLowerCase());
+                const hasMatch = typesFilter.some((type) =>
+                    pokemonTypes.includes(type.toLowerCase())
+                );
+                if (!hasMatch) {
+                    matchesType = false;
+                }
+            }
+
+            return matchesName && matchesType;
+        });
+
+        return filteredPokemons;
     }
 
     async getAllTypes(): Promise<string[]> {
