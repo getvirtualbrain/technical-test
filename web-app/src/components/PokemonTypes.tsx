@@ -5,7 +5,7 @@ interface Props {
     types: PokemonType[];
 }
 
-const PokemonTypeChips: React.FC<Props> = ({ types }) => {
+const PokemonTypes: React.FC<Props> = ({ types }) => {
     return (
         <div className="flex flex-wrap gap-2 px-4">
             {types.map((type) => (
@@ -22,4 +22,4 @@ const PokemonTypeChips: React.FC<Props> = ({ types }) => {
     );
 };
 
-export default PokemonTypeChips;
+export default PokemonTypes;

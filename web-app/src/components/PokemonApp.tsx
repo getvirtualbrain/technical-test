@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { Header } from './Header';
 import PokemonList from './PokemonList';
 import PokemonSearchBar from './PokemonSearchBar';
+import PokemonTypes from './PokemonTypes';
 import { useTheme } from './ThemeContext';
 
-import PokemonTypes from './PokemonTypes';
 const API_URL = 'http://localhost:3001'
 
 const PokemonApp: React.FC = () => {
@@ -33,7 +33,7 @@ const PokemonApp: React.FC = () => {
           const response = await axios.get(`${API_URL}/pokemons?name=${search}`);
           data = response.data.pokemons
         } else {
-          const response = await axios.get(`${API_URL}/pokemons/limit/16`);
+          const response = await axios.get(`${API_URL}/pokemons/limit/40`);
           data = response.data.pokemons
         };
         setPokemonList(data);
