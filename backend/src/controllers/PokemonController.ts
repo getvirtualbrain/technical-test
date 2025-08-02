@@ -1,6 +1,7 @@
 import { type Request, type Response, Router } from "express";
 import { PokemonLimitError } from "../errors/PokemonLimitError";
-import { pokemonService } from "../services/services";
+import { chatbotService, pokemonService } from "../services/services";
+
 
 const PokemonController = Router();
 
@@ -66,5 +67,49 @@ PokemonController.get("/limit/:limit", async (req: Request, res: Response) => {
 		return res.status(500).send({ error: "Failed to fetch pokemons" });
 	}
 });
+
+/**
+ * Simulate a battle between two Pokémons
+ * @route GET /pokemons/battle/:id1/:id2
+ * @group Pokemons
+ */
+PokemonController.get("/battle/:id1/:id2", async (req: Request, res: Response) => {
+	try {
+		const { id1, id2 } = req.params;
+
+		const n1 = Number(id1);
+		const n2 = Number(id2);
+
+		if (
+			isNaN(n1) || isNaN(n2) ||
+			n1 < 1 || n1 > 898 ||
+			n2 < 1 || n2 > 898
+		) {
+			return res.status(400).send({ error: "Both IDs must be numbers between 1 and 898." });
+		}
+
+		const [pokemon1, pokemon2] = await Promise.all([
+			pokemonService.getPokemonById(id1),
+			pokemonService.getPokemonById(id2)
+		]);
+
+		const stream = await chatbotService.simulateBattleStream(pokemon1.name, pokemon2.name);
+
+		res.setHeader("Content-Type", "text/plain; charset=utf-8");
+		res.setHeader("Transfer-Encoding", "chunked");
+
+		stream.pipe(res);
+		stream.on("end", () => res.end());
+		stream.on("error", (err) => {
+			console.error("Streaming error:", err);
+			res.end();
+		});
+
+	} catch (err) {
+		console.error(err);
+		return res.status(500).send({ error: "Failed to fetch battle data" });
+	}
+});
+
 
 export { PokemonController };
