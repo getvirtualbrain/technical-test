@@ -14,8 +14,8 @@ export class PokemonService {
         this.apiUrl = apiUrl;
     }
 
-    async getPokemonById(id: string): Promise<Pokemon> {
-        const result = await axios.get(`${this.apiUrl}/pokemon/${id}`);
+    async getPokemonByIdOrName(idOrName: string): Promise<Pokemon> {
+        const result = await axios.get(`${this.apiUrl}/pokemon/${idOrName}`);
         return result.data as Pokemon;
     }
 

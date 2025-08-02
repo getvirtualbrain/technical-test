@@ -45,7 +45,6 @@ export class ChatbotService {
         - Do not add any flavor text, extra explanations, or summaries.
         - If you don't know the pokemon stats just improvise and imagine them.
 
-
         Format example:
         Round 1: Pikachu uses Thunderbolt on Squirtle – 32 damage (super effective)
         HP: Pikachu 100 / 100, Squirtle 68 / 100
@@ -69,7 +68,7 @@ export class ChatbotService {
         if (!response.ok || !response.body) {
             console.error(response)
             const text = await response.text();
-            throw new Error(`Failed to fetch from VirtualBrain: ${text}`);
+            throw new Error(`Failed to fetch from VirtualBrain: ${response.statusText} ${text}`);
         }
 
         return Readable.fromWeb(response.body as ReadableStream);

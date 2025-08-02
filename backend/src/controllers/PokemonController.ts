@@ -6,16 +6,20 @@ import { chatbotService, pokemonService } from "../services/services";
 const PokemonController = Router();
 
 /**
- * Get a pokemon by id
- * @route GET /pokemons/:id
+ * Get a pokemon by id or
+ * @route GET /pokemons/:idOrName
  * @group Pokemons
  */
-PokemonController.get("/:id", async (req: Request, res: Response) => {
+PokemonController.get("/:idOrName", async (req: Request, res: Response) => {
 	try {
-		const { id } = req.params;
-		const pokemon = await pokemonService.getPokemonById(id);
+		const { idOrName } = req.params;
+		const pokemon = await pokemonService.getPokemonByIdOrName(idOrName);
 		return res.status(200).send({ pokemon });
 	} catch (err) {
+		if (err instanceof Error && err.message.includes("404")) {
+			return res.status(404).send({ error: err.message });
+		}
+
 		console.error(err);
 		return res.status(500).send({ error: "Failed to fetch pokemon" });
 	}
@@ -89,8 +93,8 @@ PokemonController.get("/battle/:id1/:id2", async (req: Request, res: Response) =
 		}
 
 		const [pokemon1, pokemon2] = await Promise.all([
-			pokemonService.getPokemonById(id1),
-			pokemonService.getPokemonById(id2)
+			pokemonService.getPokemonByIdOrName(id1),
+			pokemonService.getPokemonByIdOrName(id2)
 		]);
 
 		const stream = await chatbotService.simulateBattleStream(pokemon1.name, pokemon2.name);
