@@ -1,6 +1,5 @@
 import { Pokemon } from '@shared/types';
 import fs from "fs/promises";
-import json2md from 'json2md';
 import path from 'path';
 import { PokemonFileNotFoundError } from '../errors/PokemonFileNotFoundError';
 import { PokemonService } from './PokemonService';
@@ -9,26 +8,33 @@ const EXPORT_DIR = path.join(process.cwd(), "export");
 
 export class ContentService {
     constructor(private pokemonService: PokemonService) { }
-
     private toMarkdown(pokemon: Pokemon): string {
-        return json2md([
-            { h1: pokemon.name },
-            { p: `ID: ${pokemon.id}` },
-            { img: { title: pokemon.name, source: pokemon.image } },
-            { h2: "Stats" },
-            {
-                ul: [
-                    `HP: ${pokemon.stats.HP}`,
-                    `Attack: ${pokemon.stats.attack}`,
-                    `Defense: ${pokemon.stats.defense}`,
-                    `Speed: ${pokemon.stats.speed}`
-                ]
-            },
-            { h2: "Types" },
-            {
-                ul: pokemon.apiTypes.map((t) => `${t.name} (${t.image})`)
-            }
-        ]);
+        return [
+            `![](${pokemon.image})\n`,
+            `# ${pokemon.name}`,
+            `ID: ${pokemon.id}\n`,
+            `Pokedex ID: ${pokemon.pokedexId}\n`,
+            `Generation: ${pokemon.apiGeneration}\n`,
+            `## Stats\n`,
+            `HP: ${pokemon.stats.HP}\n`,
+            `Attack: ${pokemon.stats.attack}\n`,
+            `Defense: ${pokemon.stats.defense}\n`,
+            `Speed: ${pokemon.stats.speed}\n`,
+            `Special Attack: ${pokemon.stats.special_attack}\n`,
+            `Special Defense: ${pokemon.stats.special_defense}\n`,
+            `## Types\n`,
+            ...pokemon.apiTypes.map((t) => `- ${t.name}`),
+            `## Resistances\n`,
+            ...pokemon.apiResistances.map((r) => `- ${r.name} Multiplier: ${r.damage_multiplier} Relation: ${r.damage_relation}`),
+            `## Resistance Modifying Ability\n`,
+            `- ${pokemon.resistanceModifyingAbilitiesForApi?.name || "None"}\n`,
+            `## Evolutions\n`,
+            ...pokemon.apiEvolutions.map((e) => `- ${e.name} (${e.pokedexId})`),
+            `## Pre-Evolution\n`,
+            `- ${pokemon.apiPreEvolution}\n`,
+            `## Resistance with abilities\n`,
+            ...pokemon.apiResistancesWithAbilities.map((r) => `- ${r.name} Multiplier: ${r.damage_multiplier} Relation: ${r.damage_relation}`),
+        ].join("\n");
     }
 
     private async ensureExportDir(): Promise<void> {
