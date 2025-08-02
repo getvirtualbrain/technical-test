@@ -13,9 +13,9 @@ const PokemonApp: React.FC = () => {
 
   useEffect(() => {
     const getPokemon = async () => {
-      const response = await axios.get(`${API_URL}/pokemons/1`);
-      const pokemon = response.data.pokemon
-      setPokemonList([pokemon]);
+      const response = await axios.get(`${API_URL}/pokemons/limit/100`);
+      const pokemons = response.data.pokemons
+      setPokemonList(pokemons);
     };
 
     getPokemon();
