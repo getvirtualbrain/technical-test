@@ -15,6 +15,7 @@ const PokemonApp: React.FC = () => {
   const [types, setTypes] = useState<PokemonType[]>([]);
   const [search, setSearch] = useState("");
   const { theme } = useTheme();
+  const [selectedTypes, setSelectedTypes] = useState<PokemonType[]>([]);
 
   useEffect(() => {
     const getTypes = async () => {
@@ -45,6 +46,17 @@ const PokemonApp: React.FC = () => {
     getPokemon();
   }, [search]);
 
+  const handleTypeClick = (type: PokemonType) => {
+    setSelectedTypes((prevTypes) => {
+      const isAlreadySelected = prevTypes.some((t) => t.name === type.name);
+      if (isAlreadySelected) {
+        return prevTypes.filter((t) => t.name !== type.name);
+      }
+      return [...prevTypes, type];
+    });
+  };
+
+
   if (!fetched) {
     return (
       <div className="flex items-center h-screen">
@@ -57,7 +69,7 @@ const PokemonApp: React.FC = () => {
     <div className={`${theme === "light" ? "bg-amber-50" : "bg-slate-800"} flex flex-col items-center`}>
       <Header />
       <PokemonSearchBar onChange={setSearch} />
-      <PokemonTypes types={types} />
+      <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
       <PokemonList pokemons={pokemonList} />
     </div>
   );
