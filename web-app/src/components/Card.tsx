@@ -6,7 +6,7 @@ interface CardProps {
     pokemon: Pokemon;
 }
 
-function throttle<T extends (...args: any[]) => any>(
+function throttle<T extends (...args: React.MouseEvent<HTMLDivElement>[]) => void>(
     func: T,
     delay: number = 100
 ): (...args: Parameters<T>) => void {
@@ -30,9 +30,6 @@ export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
 
 const Card: React.FC<CardProps> = ({ pokemon }) => {
     const { theme } = useTheme();
-    if (!pokemon) {
-        return null;
-    }
     const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
     const onMouseMove = useCallback(
@@ -54,6 +51,11 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
     const onMouseLeave = () => {
         setRotate({ x: 0, y: 0 });
     };
+
+    if (!pokemon) {
+        return null;
+    }
+
     return (
         <div className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed`}
             onMouseMove={onMouseMove}
