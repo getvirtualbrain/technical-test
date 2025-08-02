@@ -6,6 +6,21 @@ import { chatbotService, pokemonService } from "../services/services";
 const PokemonController = Router();
 
 /**
+ * Get all pokemons types
+ * @route GET /pokemons/types
+ * @group Pokemons
+ */
+PokemonController.get("/types", async (_req: Request, res: Response) => {
+	try {
+		const types = await pokemonService.getAllTypes();
+		return res.status(200).send({ types });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).send({ error: "Failed to fetch types" });
+	}
+});
+
+/**
  * Get a pokemon by id or
  * @route GET /pokemons/:idOrName
  * @group Pokemons

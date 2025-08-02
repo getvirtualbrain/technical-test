@@ -1,4 +1,4 @@
-import { Pokemon } from '@shared/types';
+import { Pokemon, PokemonType } from '@shared/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Header } from './Header';
@@ -6,13 +6,23 @@ import PokemonList from './PokemonList';
 import PokemonSearchBar from './PokemonSearchBar';
 import { useTheme } from './ThemeContext';
 
+import PokemonTypes from './PokemonTypes';
 const API_URL = 'http://localhost:3001'
 
 const PokemonApp: React.FC = () => {
   const [fetched, setFetched] = useState(false);
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [types, setTypes] = useState<PokemonType[]>([]);
   const [search, setSearch] = useState("");
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const getTypes = async () => {
+      const response = await axios.get(`${API_URL}/pokemons/types`);
+      setTypes(response.data.types);
+    }
+    getTypes();
+  }, []);
 
   useEffect(() => {
     const getPokemon = async () => {
@@ -47,6 +57,7 @@ const PokemonApp: React.FC = () => {
     <div className={`${theme === "light" ? "bg-amber-50" : "bg-slate-800"} flex flex-col items-center`}>
       <Header />
       <PokemonSearchBar onChange={setSearch} />
+      <PokemonTypes types={types} />
       <PokemonList pokemons={pokemonList} />
     </div>
   );

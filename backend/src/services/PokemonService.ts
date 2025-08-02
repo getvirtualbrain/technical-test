@@ -29,6 +29,12 @@ export class PokemonService {
         return result.data as Pokemon[];
     }
 
+    async getAllTypes(): Promise<string[]> {
+        console.error(this.apiUrl);
+        const result = await axios.get(`${this.apiUrl}/types`);
+        return result.data as string[];
+    }
+
     async getPokemonsByLimit(limit: number): Promise<Pokemon[]> {
         if (limit > 898) {
             throw new PokemonLimitError(limit);
