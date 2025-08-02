@@ -1,5 +1,6 @@
-To install and launch: 
+To install and launch:
 
-npm install 
+Set the .env file with the correct values (see .env.example)
+
+npm install
 npm run dev
-
