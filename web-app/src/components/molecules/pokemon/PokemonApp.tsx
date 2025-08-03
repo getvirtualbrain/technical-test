@@ -68,6 +68,7 @@ const PokemonApp: React.FC = () => {
   }
 
   const handleSelectedPokemonClick = (selectedPokemon: Pokemon) => {
+    setBattleResult(null);
     setSelectedPokemons(selectedPokemons.filter(pokemon => { return pokemon.id !== selectedPokemon.id }))
   }
 
