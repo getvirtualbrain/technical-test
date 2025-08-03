@@ -1,5 +1,7 @@
 import { PokemonType } from "@shared/types";
 import React from "react";
+import Chip from "../../atoms/Chip";
+
 
 interface Props {
     types: PokemonType[];
@@ -13,19 +15,14 @@ const PokemonTypes: React.FC<Props> = ({ types, onTypeClick, selectedTypes }) =>
             {types.map((type) => {
                 const isSelected = selectedTypes.some(selectedType => selectedType.name === type.name);
                 return (
-                    <button
+                    <Chip
                         key={type.name}
+                        isSelected={isSelected}
                         onClick={() => onTypeClick(type)}
-                        className={`flex items-center gap-1 px-3 py-1 rounded-full shadow-sm border transition-colors duration-200 
-              ${isSelected
-                                ? "bg-amber-300 border-amber-400"
-                                : "bg-amber-100 hover:bg-amber-200 border-amber-200"
-                            }`}
-                    >
-                        <img src={type.image} alt={type.name} className="w-5 h-5" />
-                        <span className="text-sm font-medium">{type.name}</span>
-                    </button>
-                );
+                        image={type.image}
+                        imageAlt={type.name}
+                        text={type.name} />
+                )
             })}
         </div>
     );
