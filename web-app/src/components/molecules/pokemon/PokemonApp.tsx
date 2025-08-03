@@ -16,6 +16,7 @@ const PokemonApp: React.FC = () => {
   const [search, setSearch] = useState("");
   const { theme } = useTheme();
   const [selectedTypes, setSelectedTypes] = useState<PokemonType[]>([]);
+  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
 
   useEffect(() => {
     const getTypes = async () => {
@@ -34,7 +35,7 @@ const PokemonApp: React.FC = () => {
           const response = await axios.get(`${API_URL}/pokemons?name=${search}&types=${selectedTypes.map(type => type.name).join(',')}`);
           data = response.data.pokemons
         } else {
-          const response = await axios.get(`${API_URL}/pokemons/limit/40`);
+          const response = await axios.get(`${API_URL}/pokemons/limit/8`);
           data = response.data.pokemons
         };
         setPokemonList(data);
@@ -56,6 +57,14 @@ const PokemonApp: React.FC = () => {
     });
   };
 
+  const handlePokemonClick = (selectedPokemon: Pokemon) => {
+    if (selectedPokemons.length === 0) {
+      setSelectedPokemons([selectedPokemon]);
+    } else if (selectedPokemons.length === 1) {
+      setSelectedPokemons([selectedPokemons[0], selectedPokemon]);
+    }
+  }
+
 
   if (!fetched) {
     return (
@@ -70,7 +79,7 @@ const PokemonApp: React.FC = () => {
       <Header />
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
-      <PokemonList pokemons={pokemonList} />
+      <PokemonList selectable={selectedPokemons.length < 2} pokemons={pokemonList} onPokemonClick={handlePokemonClick} />
     </div>
   );
 };

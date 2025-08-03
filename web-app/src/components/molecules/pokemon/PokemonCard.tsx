@@ -4,6 +4,8 @@ import { useTheme } from "../../atoms/ThemeContext";
 
 interface CardProps {
     pokemon: Pokemon;
+    selectable?: boolean;
+    onClick: () => void;
 }
 
 function throttle<T extends (...args: React.MouseEvent<HTMLDivElement>[]) => void>(
@@ -22,13 +24,13 @@ function throttle<T extends (...args: React.MouseEvent<HTMLDivElement>[]) => voi
 }
 
 export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
-    return <div className="bg-amber-300 rounded-2xl p-2 h-[40px] flex items-center">
+    return <div className="rounded-2xl p-2 h-[40px] flex items-center">
         <img src={pokemon.image} alt={pokemon.name} style={{ height: '100%' }} />
         <div className="text-center ml-2">{pokemon.name}</div>
     </div>;
 }
 
-const PokemonCard: React.FC<CardProps> = ({ pokemon }) => {
+const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick, selectable = false }) => {
     const { theme } = useTheme();
     const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
@@ -57,9 +59,10 @@ const PokemonCard: React.FC<CardProps> = ({ pokemon }) => {
     }
 
     return (
-        <div className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed`}
+        <div className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed ${selectable ? "cursor-pointer" : "cursor-default"}`}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
+            onClick={onClick}
             style={{
                 transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale3d(1, 1, 1)`,
                 transition: "all 400ms cubic-bezier(0.03, 0.98, 0.52, 0.99) 0s",
