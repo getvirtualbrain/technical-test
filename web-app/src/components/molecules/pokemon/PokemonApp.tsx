@@ -17,6 +17,8 @@ const PokemonApp: React.FC = () => {
   const { theme } = useTheme();
   const [selectedTypes, setSelectedTypes] = useState<PokemonType[]>([]);
   const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
+  const [battleResult, setBattleResult] = useState<string | null>(null);
+  const [isFighting, setIsFighting] = useState<boolean>(false);
 
   useEffect(() => {
     const getTypes = async () => {
@@ -69,9 +71,34 @@ const PokemonApp: React.FC = () => {
     setSelectedPokemons(selectedPokemons.filter(pokemon => { return pokemon.id !== selectedPokemon.id }))
   }
 
-  const handleFightClick = () => {
-    console.log("fight");
-  }
+  const handleFightClick = async () => {
+    if (selectedPokemons.length !== 2) return;
+
+    setIsFighting(true);
+    setBattleResult(null);
+    const url = `${API_URL}/pokemons/battle/${selectedPokemons[0].id}/${selectedPokemons[1].id}`;
+
+    const response = await fetch(url);
+
+    if (!response.body) {
+      console.error("No stream received.");
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let result = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      result += decoder.decode(value, { stream: true });
+      setBattleResult(result);
+    }
+
+    setIsFighting(false);
+  };
+
 
 
   if (!fetched) {
@@ -87,6 +114,7 @@ const PokemonApp: React.FC = () => {
       <Header />
       {selectedPokemons.length === 0 && <h1 className={`py-8 text-2xl ${theme === 'light' ? 'text-black' : 'text-white'}`}>Select 2 pokemons for battle</h1>}
       <PokemonBattleSelection selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} onFightClick={handleFightClick} />
+      {battleResult && <div className={`p-12 ${theme === 'light' ? 'text-black' : 'text-white'}`}>{battleResult}</div>}
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
       <PokemonList selectable={selectedPokemons.length < 2} pokemons={pokemonList} onPokemonClick={handlePokemonClick} />
