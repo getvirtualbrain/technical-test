@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../../atoms/ThemeContext';
 
 type OwnProps = {
     onChange: (value: string) => void;

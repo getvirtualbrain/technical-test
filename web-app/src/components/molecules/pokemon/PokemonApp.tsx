@@ -1,11 +1,11 @@
 import { Pokemon, PokemonType } from '@shared/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Header } from './Header';
+import Header from '../../atoms/Header';
+import { useTheme } from '../../atoms/ThemeContext';
 import PokemonList from './PokemonList';
 import PokemonSearchBar from './PokemonSearchBar';
 import PokemonTypes from './PokemonTypes';
-import { useTheme } from './ThemeContext';
 
 const API_URL = 'http://localhost:3001'
 

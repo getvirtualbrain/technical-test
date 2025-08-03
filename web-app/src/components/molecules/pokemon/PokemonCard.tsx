@@ -1,6 +1,6 @@
 import { Pokemon } from "@shared/types";
 import { useCallback, useState } from "react";
-import { useTheme } from "./ThemeContext";
+import { useTheme } from "../../atoms/ThemeContext";
 
 interface CardProps {
     pokemon: Pokemon;
@@ -28,7 +28,7 @@ export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
     </div>;
 }
 
-const Card: React.FC<CardProps> = ({ pokemon }) => {
+const PokemonCard: React.FC<CardProps> = ({ pokemon }) => {
     const { theme } = useTheme();
     const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
@@ -84,4 +84,4 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
     )
 }
 
-export default Card;
+export default PokemonCard;
