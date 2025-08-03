@@ -37,7 +37,7 @@ const PokemonApp: React.FC = () => {
           const response = await axios.get(`${API_URL}/pokemons?name=${search}&types=${selectedTypes.map(type => type.name).join(',')}`);
           data = response.data.pokemons
         } else {
-          const response = await axios.get(`${API_URL}/pokemons/limit/4`);
+          const response = await axios.get(`${API_URL}/pokemons/limit/40`);
           data = response.data.pokemons
         };
         setPokemonList(data);
@@ -76,7 +76,7 @@ const PokemonApp: React.FC = () => {
     if (selectedPokemons.length !== 2 || isFighting) return;
 
     setIsFighting(true);
-    setBattleResult(null);
+    setBattleResult("Starting battle between " + selectedPokemons[0].name + " and " + selectedPokemons[1].name + "...\n");
     const url = `${API_URL}/pokemons/battle/${selectedPokemons[0].id}/${selectedPokemons[1].id}`;
 
     const response = await fetch(url);
