@@ -114,7 +114,7 @@ const PokemonApp: React.FC = () => {
       <Header />
       {selectedPokemons.length === 0 && <h1 className={`py-8 text-2xl ${theme === 'light' ? 'text-black' : 'text-white'}`}>Select 2 pokemons for battle</h1>}
       <PokemonBattleSelection isFighting={isFighting} selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} onFightClick={handleFightClick} />
-      {battleResult && <div className={`p-12 ${theme === 'light' ? 'text-black' : 'text-white'}`}>{battleResult}</div>}
+      {battleResult && <div className={`p-12 whitespace-pre-wrap ${theme === 'light' ? 'text-black' : 'text-white'}`}>{battleResult}</div>}
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
       <PokemonList selectable={selectedPokemons.length < 2} pokemons={pokemonList} onPokemonClick={handlePokemonClick} />
