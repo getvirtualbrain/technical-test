@@ -1,13 +1,13 @@
 import { Pokemon, PokemonType } from '@shared/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../../api/constants';
 import Header from '../../atoms/Header';
 import { useTheme } from '../../atoms/ThemeContext';
+import PokemonBattleSelection from './PokemonBattleSelection';
 import PokemonList from './PokemonList';
 import PokemonSearchBar from './PokemonSearchBar';
 import PokemonTypes from './PokemonTypes';
-
-const API_URL = 'http://localhost:3001'
 
 const PokemonApp: React.FC = () => {
   const [fetched, setFetched] = useState(false);
@@ -35,7 +35,7 @@ const PokemonApp: React.FC = () => {
           const response = await axios.get(`${API_URL}/pokemons?name=${search}&types=${selectedTypes.map(type => type.name).join(',')}`);
           data = response.data.pokemons
         } else {
-          const response = await axios.get(`${API_URL}/pokemons/limit/8`);
+          const response = await axios.get(`${API_URL}/pokemons/limit/4`);
           data = response.data.pokemons
         };
         setPokemonList(data);
@@ -60,9 +60,13 @@ const PokemonApp: React.FC = () => {
   const handlePokemonClick = (selectedPokemon: Pokemon) => {
     if (selectedPokemons.length === 0) {
       setSelectedPokemons([selectedPokemon]);
-    } else if (selectedPokemons.length === 1) {
+    } else if (selectedPokemons.length === 1 && selectedPokemons[0].id !== selectedPokemon.id) {
       setSelectedPokemons([selectedPokemons[0], selectedPokemon]);
     }
+  }
+
+  const handleSelectedPokemonClick = (selectedPokemon: Pokemon) => {
+    setSelectedPokemons(selectedPokemons.filter(pokemon => { return pokemon.id !== selectedPokemon.id }))
   }
 
 
@@ -77,6 +81,7 @@ const PokemonApp: React.FC = () => {
   return (
     <div className={`${theme === "light" ? "bg-amber-50" : "bg-slate-800"} flex flex-col items-center`}>
       <Header />
+      <PokemonBattleSelection selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} />
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
       <PokemonList selectable={selectedPokemons.length < 2} pokemons={pokemonList} onPokemonClick={handlePokemonClick} />
