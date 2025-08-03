@@ -72,7 +72,7 @@ const PokemonApp: React.FC = () => {
   }
 
   const handleFightClick = async () => {
-    if (selectedPokemons.length !== 2) return;
+    if (selectedPokemons.length !== 2 || isFighting) return;
 
     setIsFighting(true);
     setBattleResult(null);
@@ -113,7 +113,7 @@ const PokemonApp: React.FC = () => {
     <div className={`${theme === "light" ? "bg-amber-50" : "bg-slate-800"} flex flex-col items-center`}>
       <Header />
       {selectedPokemons.length === 0 && <h1 className={`py-8 text-2xl ${theme === 'light' ? 'text-black' : 'text-white'}`}>Select 2 pokemons for battle</h1>}
-      <PokemonBattleSelection selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} onFightClick={handleFightClick} />
+      <PokemonBattleSelection isFighting={isFighting} selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} onFightClick={handleFightClick} />
       {battleResult && <div className={`p-12 ${theme === 'light' ? 'text-black' : 'text-white'}`}>{battleResult}</div>}
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />

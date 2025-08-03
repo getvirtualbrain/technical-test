@@ -6,11 +6,12 @@ import PokemonCard from './PokemonCard';
 
 type OwnProps = {
     selectedPokemons: Pokemon[];
+    isFighting: boolean;
     onPokemonClick: (pokemon: Pokemon) => void;
     onFightClick: () => void;
 }
 
-const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemonClick, onFightClick }) => {
+const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemonClick, onFightClick, isFighting }) => {
     const { theme } = useTheme();
 
     if (selectedPokemons.length === 0) { return null }
@@ -23,7 +24,7 @@ const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemo
                     <PokemonCard pokemon={p} key={p.id} onClick={() => onPokemonClick(p)} selectable />
                 ))}
             </div>
-            {selectedPokemons.length === 2 && (
+            {selectedPokemons.length === 2 && !isFighting && (
                 <button onClick={onFightClick} className={`bg-red-500 text-white px-8 py-4 rounded-md text-white`}>Fight!</button>
             )}
         </div >
