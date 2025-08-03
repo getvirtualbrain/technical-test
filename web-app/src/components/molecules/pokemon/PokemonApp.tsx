@@ -69,6 +69,10 @@ const PokemonApp: React.FC = () => {
     setSelectedPokemons(selectedPokemons.filter(pokemon => { return pokemon.id !== selectedPokemon.id }))
   }
 
+  const handleFightClick = () => {
+    console.log("fight");
+  }
+
 
   if (!fetched) {
     return (
@@ -81,7 +85,8 @@ const PokemonApp: React.FC = () => {
   return (
     <div className={`${theme === "light" ? "bg-amber-50" : "bg-slate-800"} flex flex-col items-center`}>
       <Header />
-      <PokemonBattleSelection selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} />
+      {selectedPokemons.length === 0 && <h1 className={`py-8 text-2xl ${theme === 'light' ? 'text-black' : 'text-white'}`}>Select 2 pokemons for battle</h1>}
+      <PokemonBattleSelection selectedPokemons={selectedPokemons} onPokemonClick={handleSelectedPokemonClick} onFightClick={handleFightClick} />
       <PokemonSearchBar onChange={setSearch} />
       <PokemonTypes types={types} onTypeClick={handleTypeClick} selectedTypes={selectedTypes} />
       <PokemonList selectable={selectedPokemons.length < 2} pokemons={pokemonList} onPokemonClick={handlePokemonClick} />
