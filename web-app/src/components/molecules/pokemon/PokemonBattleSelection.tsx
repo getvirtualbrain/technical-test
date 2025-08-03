@@ -11,7 +11,7 @@ type OwnProps = {
     onFightClick: () => void;
 }
 
-const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemonClick, onFightClick, isFighting }) => {
+const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemonClick }) => {
     const { theme } = useTheme();
 
     if (selectedPokemons.length === 0) { return null }
@@ -24,9 +24,6 @@ const PokemonBattleSelection: React.FC<OwnProps> = ({ selectedPokemons, onPokemo
                     <PokemonCard pokemon={p} key={p.id} onClick={() => onPokemonClick(p)} selectable />
                 ))}
             </div>
-            {selectedPokemons.length === 2 && !isFighting && (
-                <button onClick={onFightClick} className={`bg-red-500 text-white px-8 py-4 rounded-md text-white`}>Fight!</button>
-            )}
         </div >
     );
 }
