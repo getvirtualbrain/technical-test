@@ -1,10 +1,10 @@
+import { createServer } from 'http'
 
 import cors from 'cors'
 import express from 'express'
 
-import { createServer } from 'http'
-import { PokemonController } from './controllers/PokemonController'
 import { ContentController } from './controllers/ContentsController'
+import { PokemonController } from './controllers/PokemonController'
 
 /** App */
 const app = express()
@@ -14,9 +14,9 @@ const httpServer = createServer(app)
 
 app.set('trust proxy', 1)
 app.use(cors({
-	origin: true,
-	credentials: true,
-	exposedHeaders: ['set-cookie']
+  origin: true,
+  credentials: true,
+  exposedHeaders: ['set-cookie']
 }))
 
 /**
@@ -32,12 +32,11 @@ app.use('/pokemons', PokemonController)
 app.use('/contents', ContentController)
 app.get('/ping', (_req, res) => res.status(200).send('pong'))
 
-
 /* -------------------------- Start the application ------------------------- */
 
 /**
  * Start server
  */
 httpServer.listen(3001, () => {
-	console.log('Server started on port:', 3001)
+  console.log('Server started on port:', 3001)
 })

@@ -59,19 +59,18 @@ export interface Pokemon {
 	apiResistancesWithAbilities: Resistance[];
 }
 
-
 PokemonController.get(
-	'/:id',
-	async (req: Request, res: Response) => {
-		const { id } = req.params
+  '/:id',
+  async (req: Request, res: Response) => {
+    const { id } = req.params
 
-		console.log('coucou')
-		const result = await axios.get(`${POKEMON_API_URL}/pokemon/${id}`)
+    console.log('coucou')
+    const result = await axios.get(`${POKEMON_API_URL}/pokemon/${id}`)
 
-		const pokemon = result.data as Pokemon
+    const pokemon = result.data as Pokemon
 
-		return res.status(200).send({pokemon})
-	}
+    return res.status(200).send({pokemon})
+  }
 )
 
 export { PokemonController }

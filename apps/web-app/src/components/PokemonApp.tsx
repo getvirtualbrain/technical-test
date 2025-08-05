@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import PokemonList from './PokemonList';
-import {Header} from './Header';
-import {useTheme} from './ThemeContext';
 import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+
+import {Header} from './Header';
+import PokemonList from './PokemonList';
+import {useTheme} from './ThemeContext';
 
 const API_URL = 'http://localhost:3001'
 
@@ -12,9 +13,9 @@ const PokemonApp: React.FC = () => {
 
   useEffect(() => {
     const getPokemon = async () => {
-            const response = await axios.get(`${API_URL}/pokemons/1`);
-			const pokemon = response.data.pokemon
-            setPokemonList([pokemon]);
+      const response = await axios.get(`${API_URL}/pokemons/1`);
+      const pokemon = response.data.pokemon
+      setPokemonList([pokemon]);
     };
 
     getPokemon();
