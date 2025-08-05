@@ -6,7 +6,26 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.32.0
+        version: 9.32.0
+      eslint:
+        specifier: ^9.32.0
+        version: 9.32.0(jiti@1.21.7)
+      eslint-plugin-import:
+        specifier: ^2.32.0
+        version: 2.32.0(@typescript-eslint/parser@8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.32.0(jiti@1.21.7))
+      eslint-plugin-unused-imports:
+        specifier: ^4.1.4
+        version: 4.1.4(@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.32.0(jiti@1.21.7))
+      globals:
+        specifier: ^15.14.0
+        version: 15.14.0
+      typescript-eslint:
+        specifier: ^8.18.2
+        version: 8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2)
 
   apps/backend:
     dependencies:
@@ -2805,10 +2824,10 @@ snapshots:
       '@types/node': 24.1.0
       '@types/send': 0.17.5
 
-  '@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)':
+  '@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
+      '@typescript-eslint/parser': 8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2)
       '@typescript-eslint/scope-manager': 8.18.2
       '@typescript-eslint/type-utils': 8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
       '@typescript-eslint/utils': 8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
@@ -4733,7 +4752,7 @@ snapshots:
 
   typescript-eslint@8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
+      '@typescript-eslint/eslint-plugin': 8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.32.0(jiti@1.21.7))(typescript@5.6.2))(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
       '@typescript-eslint/parser': 8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
       '@typescript-eslint/utils': 8.18.2(eslint@9.17.0(jiti@1.21.7))(typescript@5.6.2)
       eslint: 9.17.0(jiti@1.21.7)
