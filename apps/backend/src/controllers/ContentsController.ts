@@ -1,4 +1,4 @@
-import { type Request, type Response, Router } from 'express'
+import {type Request, type Response, Router} from 'express'
 
 const ContentController = Router()
 

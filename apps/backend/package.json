@@ -1,5 +1,5 @@
 {
-	"name": "backend",
+	"name": "@getvirtualbrain-technical-test/backend",
 	"version": "0.0.0",
 	"type": "commonjs",
 	"scripts": {

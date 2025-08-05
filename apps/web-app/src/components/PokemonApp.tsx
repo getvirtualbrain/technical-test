@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import PokemonList from './PokemonList';
-import { Header } from './Header';
-import { useTheme } from './ThemeContext';
+import {Header} from './Header';
+import {useTheme} from './ThemeContext';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3001'

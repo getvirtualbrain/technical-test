@@ -1,4 +1,4 @@
-import { ThemeProvider } from "./components/ThemeContext";
+import {ThemeProvider} from "./components/ThemeContext";
 import PokemonApp from "./components/PokemonApp";
 
 

@@ -1,0 +1,9 @@
+{
+  "name": "getvirtualbrain-technical-test",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"@getvirtualbrain-technical-test/*\" dev",
+    "build": "pnpm --filter ./apps/* build",
+    "lint": "pnpm --parallel --filter ./apps/* lint"
+  }
+}
