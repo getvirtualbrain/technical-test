@@ -55,7 +55,7 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
     setRotate({ x: 0, y: 0 });
   };
   return (
-    <div className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed`}
+    <div className={` bg-linear-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed`}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{
@@ -63,7 +63,7 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
         transition: "all 400ms cubic-bezier(0.03, 0.98, 0.52, 0.99) 0s",
       }}
     >
-      <div className={`rounded-2xl bg-gradient-to-br from-black/10 via-white/70 to-black/10 `}>
+      <div className={`rounded-2xl bg-linear-to-br from-black/10 via-white/70 to-black/10 `}>
         <div className="p-4 flex-col rounded-2xl">
           <div className='flex gap-3 justify-between'>
             <div className='font-bold'>{pokemon.name}</div>
@@ -72,7 +72,7 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
               <img className='self-end' src={type.image} alt={type.name} style={{ width: "20px"}} />
             ))}
           </div>
-          <img className={`${theme === "light" ? "bg-white" : "bg-blue-950"} outline outline-2 my-3`} src={pokemon.image} alt={pokemon.name} style={{ width: 'auto' }} />
+          <img className={`${theme === "light" ? "bg-white" : "bg-blue-950"} outline-solid outline-2 my-3`} src={pokemon.image} alt={pokemon.name} style={{ width: 'auto' }} />
           <div>Attack: {pokemon.stats.attack}</div>
           <div>Defense: {pokemon.stats.defense}</div>
           <div>Speed: {pokemon.stats.speed}</div>
