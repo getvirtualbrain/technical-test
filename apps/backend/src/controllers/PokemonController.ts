@@ -4,7 +4,7 @@ import { type Request, type Response, Router } from "express";
 
 import { fetchAllPokemons, fetchPokemonById } from "@/services/PokemonService";
 
-const PokemonController = Router();
+const PokemonController: Router = Router();
 const POKEMON_API_URL = "https://pokebuildapi.fr/api/v1";
 
 PokemonController.get("", async (req: Request, res: Response) => {

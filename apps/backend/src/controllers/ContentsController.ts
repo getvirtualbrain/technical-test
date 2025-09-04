@@ -4,7 +4,7 @@ import { type Request, type Response, Router } from "express";
 import { pokemonToMarkdown } from "@/services/ContentService";
 import { fetchAllPokemons, fetchPokemonById } from "@/services/PokemonService";
 
-const ContentController = Router();
+const ContentController: Router = Router();
 
 /**
  * Save all pokemon as markdown in markdown folder
