@@ -9,31 +9,48 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      - name: Enable corepack
-        run: corepack enable
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
-      - name: Cache turbo
+      - name: Cache pnpm store
         uses: actions/cache@v4
         with:
-          path: .turbo
-          key: turbo-${{ github.ref }}-${{ github.sha }}
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            turbo-${{ github.ref }}-
-            turbo-
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Harden pnpm network config
+        run: |
+          pnpm config set fetch-retries 5
+          pnpm config set network-timeout 600000
+
+      - name: Debug
+        run: |
+          node -v
+          pnpm -v
+          which pnpm
+          pnpm config get registry
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline --reporter=append-only
 
       - name: Build
         run: pnpm build
