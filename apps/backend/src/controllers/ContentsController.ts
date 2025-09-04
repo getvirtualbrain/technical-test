@@ -28,7 +28,7 @@ ContentController.get("/all", async (_req: Request, res: Response) => {
 
     await archive.finalize();
   } catch {
-    return res.status(500).send({ error: "Failed to - generate Pokemon archive" });
+    return res.status(500).send({ error: "Failed to generate Pokemon archive" });
   }
 });
 
