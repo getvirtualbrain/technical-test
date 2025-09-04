@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
+    "build": "tsc -p tsconfig.app.json",
     "dev": "nodemon --config ./nodemon.json",
     "lint": "eslint .",
     "test": "jest"
